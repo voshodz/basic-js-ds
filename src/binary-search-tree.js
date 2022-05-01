@@ -70,9 +70,60 @@ class BinarySearchTree {
 
  
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    let current = this.root();
+    let prev = this.root();
+    if(this.has(data) === false) {
+      //console.log("ook");
+      return;
+    }
+    while(current) {
+        if(data === current.data) {
+          break;
+        }
+        prev = current;
+        if(data < current.data) {
+          current = current.left;
+        } else {
+          current = current.right;
+        }
+    }
+    if ( (current.left === null) && (current.right === null) ) {
+      (data < prev.data) ? (prev.left = null) : (prev.right = null);	
+      //console.log("no childs");
+      return;
+    }
+    //console.log(current);
+    //console.log(current.left);
+    //console.log(current.right);
+    if( (current.left === null) || (current.right === null) ) {
+      if(prev.left === current) {
+        //console.log("here");
+        (current.left !== null) ? (prev.left = current.left) : (prev.left = current.right);
+        return;
+      } else {
+        //console.log("here 2");
+        (current.right !== null) ? (prev.right = current.right) : (prev.right = current.left);
+        return;
+      }
+    }
+   
+    let curr = current.right;
+    let prevCurr = current.right;
+    while (curr !== null) {
+      if (curr.left === null) {
+        break;
+      }
+      prevCurr = curr;
+      curr = curr.left;
+    }		
+    current.data = curr.data;
+    if(curr.right !== null) {
+      prevCurr.left = curr.right;
+    } else {
+      prevCurr.left = null;
+    }
+    return;
   }
 
   min() {
